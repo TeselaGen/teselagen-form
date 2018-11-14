@@ -1,0 +1,36 @@
+{
+    "name": "teselagen-form",
+    "version": "0.0.1",
+    "description": "Put a description here",
+    "main": "build/index.js",
+    "peerDependencies": {
+        "react": "^16.0.0"
+    },
+    "dependencies": {
+        "@blueprintjs/core": "3.7.0",
+        "mobx": "4",
+        "mobx-react": "^5.2.0",
+        "mobx-state-tree": "^2.0.5",
+        "react": "^16.0.0",
+        "react-dom": "^16.0.0",
+        "react-select": "^1.2.1",
+        "webpack": "^2.6.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "webpack --watch",
+        "build": "webpack"
+    },
+    "author": {
+        "name": "Felipe Loyola",
+        "email": "felipe.loyola@teselagen.com"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.24.1",
+        "babel-core": "^6.24.1",
+        "babel-loader": "^7.0.0",
+        "babel-plugin-transform-object-rest-spread": "^6.23.0",
+        "babel-plugin-transform-react-jsx": "^6.24.1",
+        "babel-preset-env": "^1.5.1"
+    }
+}
