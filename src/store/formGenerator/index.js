@@ -9,13 +9,13 @@ const field = types
     value: types.optional(types.string, ""),
     values: types.optional(types.array(types.string), []),
     options: types.optional(types.array(types.frozen), []),
-    query: types.optional(types.frozen, {}),
+   // query: types.optional(types.frozen, {}),
     isNumeric: types.optional(types.boolean, false),
     required: types.optional(types.boolean, false),
     type: types.string,
     name: types.string,
     disabled: types.optional(types.boolean, false),
-    GetQuery: types.optional(types.frozen, {})
+   // GetQuery: types.optional(types.frozen, {})
   })
   .actions(self => {
     const setOptions = flow(function*() {
@@ -36,7 +36,7 @@ const field = types
       }
     });
     return {
-      setOptions,
+      //setOptions,
       setValue(value) {
         self.value = value;
       }
