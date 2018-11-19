@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Element from "./element";
 import { observer } from "mobx-react";
-import { Intent, Button, Classes } from "@blueprintjs/core";
+import { Intent, Button, Classes, Callout } from "@blueprintjs/core";
 import Step from "./step";
 
 export default observer(
@@ -42,18 +42,29 @@ export default observer(
       return (
         <div className="tg-step-form-container">
           <div className="tg-step-form-title-and-nav-container">
-            {formStore.isWizard ? (
+            {formStore.isWizard && (
               <div className="tg-step-form-nav">{this.renderStepNav()}</div>
-            ) : (
-              ""
             )}
+          </div>
+          <div
+            style={
+              formStore.error.status
+                ? { display: "block", paddingBottom: "10px" }
+                : { display: "none" }
+            }
+          >
+            <Callout
+              className={Classes.MINIMAL}
+              intent={Intent[formStore.error.intent]}
+              title={formStore.error.errorMessage}
+            />
           </div>
           <div>
             {form.elements[formStore.wizard.page].fields.map(item => (
               <Element key={item.index} formStore={formStore} item={item} />
             ))}
           </div>
-          {formStore.isWizard ? (
+          {formStore.isWizard && (
             <div className="tg-step-form-buttons">
               <Button
                 icon="arrow-right"
@@ -63,8 +74,6 @@ export default observer(
                 onClick={() => formStore.nextPage(formStore.wizard.page)}
               />
             </div>
-          ) : (
-            ""
           )}
         </div>
       );
