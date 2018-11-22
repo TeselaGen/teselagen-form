@@ -1,13 +1,15 @@
 {
     "name": "teselagen-form",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Put a description here",
+    "license": "MIT",
     "main": "build/index.js",
     "peerDependencies": {
         "react": "^16.0.0"
     },
     "dependencies": {
         "@blueprintjs/core": "3.7.0",
+        "axios": "^0.18.0",
         "mobx": "4",
         "mobx-react": "^5.2.0",
         "mobx-state-tree": "^2.0.5",
