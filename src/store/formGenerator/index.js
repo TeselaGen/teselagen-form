@@ -1,5 +1,6 @@
 import { types, flow } from "mobx-state-tree";
 import { WizardStore } from "../wizard";
+import axios from "axios";
 
 const error = types.model("error", {
   status: types.optional(types.boolean, false),
@@ -15,6 +16,9 @@ const field = types
     values: types.optional(types.array(types.string), []),
     options: types.optional(types.array(types.frozen), []),
     query: types.optional(types.frozen, {}),
+    endPoint: types.optional(types.string, "/"),
+    externalSource: types.optional(types.boolean, false),
+    fetched: types.optional(types.boolean, false), 
     isNumeric: types.optional(types.boolean, false),
     required: types.optional(types.boolean, false),
     type: types.string,
@@ -23,7 +27,23 @@ const field = types
     error: types.optional(types.boolean, false)
   })
   .actions(self => {
+    const getOptions = flow(function*() {
+      try {
+        const resp = yield axios.post(
+          localStorage.getItem("serverURI") + "/formQueries",
+          { query: self.query }
+        );
+        self.options = resp.data.data.map(opt => ({
+          value: opt[self.query.parameters.value],
+          label: opt[self.query.parameters.label]
+        }));
+        self.fetched  =true;
+      } catch (error) {
+        console.error(error);
+      }
+    });
     return {
+      getOptions,
       setValue(value) {
         self.value = value;
         self.error = false;

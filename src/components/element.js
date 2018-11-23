@@ -33,6 +33,15 @@ export default observer(
             />
           );
         case "selectField":
+          if (
+            formStore.elements[formStore.wizard.page].fields[item.index]
+              .externalSource &&
+            !formStore.elements[formStore.wizard.page].fields[item.index].fetched
+          ) {
+            formStore.elements[formStore.wizard.page].fields[
+              item.index
+            ].getOptions();
+          }
           return (
             <Select
               disabled={false}
