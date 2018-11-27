@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import { Intent, FormGroup, InputGroup } from "@blueprintjs/core";
+import {
+  Intent,
+  FormGroup,
+  InputGroup,
+  Button,
+  Classes
+} from "@blueprintjs/core";
 import Select from "react-select";
+import DataTable from "../DataTable";
 import { observer } from "mobx-react";
 
 export default observer(
@@ -8,6 +15,36 @@ export default observer(
     renderField() {
       const { item, formStore } = this.props;
       switch (item.type) {
+        case "dataTable":
+          return (
+            <DataTable
+              schema={item.schema}
+              entities={
+                formStore.elements[formStore.wizard.page].arrays[0].data
+              }
+            />
+          );
+        case "button":
+          return (
+            <Button
+              icon={
+                formStore.elements[formStore.wizard.page].fields[item.index]
+                  .icon || ""
+              }
+              rightIcon={
+                formStore.elements[formStore.wizard.page].fields[item.index]
+                  .rightIcon || ""
+              }
+              text={item.text}
+              onClick={() => {
+                formStore.elements[formStore.wizard.page][item.action.type](
+                  item
+                );
+              }}
+              intent={Intent[item.intent || "PRIMARY"]}
+              classes={Classes[item.classes || "minimal"]}
+            />
+          );
         case "inputField":
           return (
             <InputGroup
@@ -36,7 +73,8 @@ export default observer(
           if (
             formStore.elements[formStore.wizard.page].fields[item.index]
               .externalSource &&
-            !formStore.elements[formStore.wizard.page].fields[item.index].fetched
+            !formStore.elements[formStore.wizard.page].fields[item.index]
+              .fetched
           ) {
             formStore.elements[formStore.wizard.page].fields[
               item.index
@@ -76,6 +114,7 @@ export default observer(
       const { item, formStore } = this.props;
       return (
         <FormGroup
+          key={item.index}
           disabled={
             formStore.elements[formStore.wizard.page].fields[item.index]
               .disabled

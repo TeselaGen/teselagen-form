@@ -8,17 +8,34 @@ const error = types.model("error", {
   errorMessage: types.optional(types.string, "Missign fields")
 });
 
+const array = types.model("array", {
+  name: types.optional(types.string, ""),
+  data: types.optional(types.array(types.frozen), [])
+});
+
+const object = types.model('object', {
+  name: types.optional(types.string, ''),
+  data: types.optional(types.frozen, {})
+})
+
+const action = types.model('action', {
+  type: types.optional(types.string, ''), //push, delete, send, custom
+  target: types.optional(types.string, ''), // custom array defined for the user
+  fields: types.optional(types.array(types.frozen), []), //schema of the object pushed to the the array
+})
+
 const field = types
   .model("field", {
     index: types.number,
+    action: types.optional(action, {}),
     placeholder: types.optional(types.string, ""),
     value: types.optional(types.string, ""),
     values: types.optional(types.array(types.string), []),
     options: types.optional(types.array(types.frozen), []),
     query: types.optional(types.frozen, {}),
-    endPoint: types.optional(types.string, "/"),
+    endPoint: types.optional(types.string, "/formQueries"),
     externalSource: types.optional(types.boolean, false),
-    fetched: types.optional(types.boolean, false), 
+    fetched: types.optional(types.boolean, false),
     isNumeric: types.optional(types.boolean, false),
     required: types.optional(types.boolean, false),
     type: types.string,
@@ -30,18 +47,19 @@ const field = types
     const getOptions = flow(function*() {
       try {
         const resp = yield axios.post(
-          localStorage.getItem("serverURI") + "/formQueries",
+          localStorage.getItem("serverURI") + self.endPoint,
           { query: self.query }
         );
         self.options = resp.data.data.map(opt => ({
           value: opt[self.query.parameters.value],
           label: opt[self.query.parameters.label]
         }));
-        self.fetched  =true;
+        self.fetched = true;
       } catch (error) {
         console.error(error);
       }
     });
+    
     return {
       getOptions,
       setValue(value) {
@@ -53,8 +71,24 @@ const field = types
 
 const element = types.model("elements", {
   page: types.number,
+  objects: types.optional(types.array(object), []), //custom objects defined for the user
+  arrays: types.optional(types.array(array), []), // custom arrays defined for the user
   fields: types.optional(types.array(field), []),
   title: types.optional(types.string, "")
+}).actions(self=>{
+  const push = (item) => {
+    let obj = {}
+    item.action.fields.map((field)=>{
+      obj[Object.keys(field)[0]] = self.fields[Object.values(field)[0]].value;
+    });
+    self.arrays.map((arr)=> {
+      if (arr.name === item.action.target){
+        arr.data.push(obj);
+      }
+    })
+  }
+
+  return { push }
 });
 
 export const formStore = types
