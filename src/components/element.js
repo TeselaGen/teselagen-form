@@ -80,29 +80,30 @@ export default observer(
               item.index
             ].getOptions();
           }
+          console.log(
+            formStore.elements[formStore.wizard.page].fields[item.index].options
+          );
           return (
             <Select
-              disabled={false}
               placeholder={"Please choose."}
-              intent={
-                formStore.elements[formStore.wizard.page].fields[item.index]
-                  .error
-                  ? Intent.DANGER
-                  : Intent.PRIMARY
-              }
               options={
                 formStore.elements[formStore.wizard.page].fields[item.index]
                   .options
               }
-              value={
-                formStore.elements[formStore.wizard.page].fields[item.index]
-                  .value
-              }
-              onChange={memberSelected =>
-                formStore.elements[formStore.wizard.page].fields[
-                  item.index
-                ].setValue(memberSelected.value)
-              }
+              value={formStore.elements[formStore.wizard.page].fields[
+                item.index
+              ].options.filter(
+                ({ value }) =>
+                  value ===
+                  formStore.elements[formStore.wizard.page].fields[item.index]
+                    .value
+              )}
+              onChange={optionSelected => {
+                console.log(optionSelected),
+                  formStore.elements[formStore.wizard.page].fields[
+                    item.index
+                  ].setValue(optionSelected.value);
+              }}
             />
           );
         default:

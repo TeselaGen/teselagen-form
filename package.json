@@ -9,13 +9,14 @@
     },
     "dependencies": {
         "@blueprintjs/core": "3.7.0",
+        "@blueprintjs/select": "^3.3.0",
         "axios": "^0.18.0",
         "mobx": "4",
         "mobx-react": "^5.2.0",
         "mobx-state-tree": "^2.0.5",
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
-        "react-select": "^1.2.1",
+        "react-select": "^2.0.0",
         "webpack": "^2.6.1"
     },
     "scripts": {
