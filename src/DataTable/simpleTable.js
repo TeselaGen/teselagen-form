@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { get } from "lodash";
+
 export default observer(
-  class DataTable extends Component {
+  class simpleTable extends Component {
     renderRows() {
       const { entities = [], schema } = this.props;
       let fakeArr = ["", "", ""];
@@ -16,7 +17,9 @@ export default observer(
           ))
         : fakeArr.map((row, index) => (
             <tr key={index}>
-              {schema.fields.map((col, i) => <td key={col.path + i}>{row}</td>)}
+              {schema.fields.map((col, i) => (
+                <td key={col.path + i}>{row}</td>
+              ))}
             </tr>
           ));
     }

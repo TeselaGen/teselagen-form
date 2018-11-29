@@ -115,12 +115,10 @@ export const formStore = types
           (field.type === "selectField" && field.values === []) ||
           (field.type !== "selectField" && field.value === "")
         ) {
-          console.log(field);
           self.elements[currentPage].fields[field.index].error = true;
         }
       });
       if (completeList.length === 0) {
-        console.log("next page");
         self.error.status = false;
         self.wizard.next();
       } else {

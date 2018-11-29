@@ -7,7 +7,7 @@ import {
   Classes
 } from "@blueprintjs/core";
 import Select from "react-select";
-import DataTable from "../DataTable";
+import DataTable from "../DataTable/simpleTable";
 import { observer } from "mobx-react";
 
 export default observer(
@@ -80,9 +80,6 @@ export default observer(
               item.index
             ].getOptions();
           }
-          console.log(
-            formStore.elements[formStore.wizard.page].fields[item.index].options
-          );
           return (
             <Select
               placeholder={"Please choose."}
@@ -99,7 +96,6 @@ export default observer(
                     .value
               )}
               onChange={optionSelected => {
-                console.log(optionSelected),
                   formStore.elements[formStore.wizard.page].fields[
                     item.index
                   ].setValue(optionSelected.value);
