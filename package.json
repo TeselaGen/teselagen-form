@@ -1,6 +1,6 @@
 {
     "name": "teselagen-form",
-    "version": "0.7.0",
+    "version": "0.15.0",
     "description": "Put a description here",
     "license": "MIT",
     "main": "build/index.js",
