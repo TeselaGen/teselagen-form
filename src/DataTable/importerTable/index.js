@@ -106,7 +106,7 @@ export default observer(
             </thead>
             <tbody>{this.renderRows()}</tbody>
           </table>
-          <div className={"paging-toolbar-container"}>
+          <div className={"paging-toolbar-container"} style={{marginTop: "10px",}}>
             <Button
               minimal
               icon="refresh"
