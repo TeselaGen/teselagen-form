@@ -7,14 +7,10 @@ export default class selectOption extends Component {
     const { dictionary, col, updater, target } = this.props;
     return (
       <Select
-        style={{ width: "100% !important" }}
         items={dictionary}
         filterable={false}
         noResults={<MenuItem disabled={true} text="No results." />}
         activeItem={col[target]}
-        usePortal={false}
-        style={{width: "100%"}}
-        inline={true}
         itemRenderer={item => (
           <MenuItem
             key={item.value}
@@ -27,9 +23,6 @@ export default class selectOption extends Component {
         )}
       >
         <Button
-          usePortal={false}
-          inline={true}
-          style={{width: "100%"}}
           rightIcon="caret-down"
           text={col[target].label || "No selection"}
         />

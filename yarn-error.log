@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn publish --minor
+  /usr/local/bin/node /usr/local/bin/yarn
 
 PATH: 
-  Applications/psql/bin:Applications/pgsql/bin/:/Applications/pgsql/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  Applications/psql/bin:Applications/pgsql/bin/:/Applications/pgsql/bin/:~/Applications/pgsql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
   1.7.0
@@ -14,16 +14,19 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/-/user/org.couchdb.user:jufelipe: ETIMEDOUT
-      at Timeout._onTimeout (/usr/local/lib/node_modules/yarn/lib/cli.js:135339:19)
-      at ontimeout (timers.js:460:11)
-      at tryOnTimeout (timers.js:298:5)
-      at Timer.listOnTimeout (timers.js:261:5)
+  TypeError: Reduce of empty array with no initial value
+      at Array.reduce (<anonymous>)
+      at PackageLinker.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:50461:43)
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:160:7)
 
 npm manifest: 
   {
       "name": "teselagen-form",
-      "version": "0.14.0",
+      "version": "0.16.0",
       "description": "Put a description here",
       "license": "MIT",
       "main": "build/index.js",
@@ -33,6 +36,7 @@ npm manifest:
       "dependencies": {
           "@blueprintjs/core": "3.7.0",
           "@blueprintjs/select": "^3.3.0",
+          "@blueprintjs/table": "^3.3.0",
           "axios": "^0.18.0",
           "classnames": "^2.2.6",
           "mobx": "4",

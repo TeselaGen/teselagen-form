@@ -1,5 +1,5 @@
 import { types } from "mobx-state-tree";
-
+import { slice } from 'lodash'
 
 export const dataImporterStore = types
   .model("dataImporterStore", {
@@ -12,6 +12,15 @@ export const dataImporterStore = types
     fetching: types.optional(types.boolean, true),
     initialIndex: types.optional(types.number, 0),
   })
+  .views(self => ({
+    get listRows() {
+      return slice(
+        self.rows,
+        self.initialIndex,
+        self.initialIndex + self.rowsPerPage
+      );
+    }
+  }))
   .actions(self => {
     return {
       setEntities(rows){

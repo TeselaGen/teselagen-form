@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { get, slice } from "lodash";
 import SelectOption from "./selectOption";
-import { Button, Classes } from "@blueprintjs/core";
+import { Button, Classes, Menu, MenuDivider } from "@blueprintjs/core";
+import { Column, Table, Cell, ColumnHeaderCell } from "@blueprintjs/table";
 import classNames from "classnames";
-
-
-
 const headerStyle = {
-  minWidth: "120px",
-  maxWidth: "140px"
+  width: "90%",
+  margin: "7px"
 };
 
 export default observer(
@@ -18,36 +16,48 @@ export default observer(
       super(props);
     }
 
-    renderRows() {
-      const { rows, headers, dataImporterStore, onDoubleClick } = this.props;
-      console.log(dataImporterStore);
-      let fakeArr = ["", "", ""];
-      return rows.length > 0
-        ? slice(
-            rows,
-            dataImporterStore.initialIndex,
-            dataImporterStore.initialIndex + dataImporterStore.rowsPerPage
-          ).map((row, index) => (
-            <tr key={index}>
-              {headers.map((col, i) => (
-                <td
-                  key={col.name + i}
-                  onDoubleClick={e => {
-                    onDoubleClick ? onDoubleClick(row): ""
-                  }}
-                >
-                  {get(row, col.name)}
-                </td>
-              ))}
-            </tr>
-          ))
-        : fakeArr.map((row, index) => (
-            <tr key={index}>
-              {headers.map((col, i) => (
-                <td key={col.name + i}>{row}</td>
-              ))}
-            </tr>
-          ));
+    getCellRenderer(key) {
+      const { rows, dataImporterStore } = this.props;
+      const list = slice(
+        rows,
+        dataImporterStore.initialIndex,
+        dataImporterStore.initialIndex + dataImporterStore.rowsPerPage
+      );
+      return row =>
+        list.length >= row ? (
+          <Cell key={row}>
+            {key.class === "descriptorType" ? (
+              <a target="_Blank" href={key.link.urlTemplate + get(list[row], key.name)}>
+                {get(list[row], key.name)}
+              </a>
+            ) : (
+              get(list[row], key.name)
+            )}
+          </Cell>
+        ) : (
+          <Cell />
+        );
+    }
+
+    getContextMenu(header) {
+      const { dictionary } = this.props;
+      return (
+        <Menu className={Classes.ELEVATION_1}>
+          <SelectOption
+            dictionary={dictionary}
+            col={header}
+            updater={header.setClass}
+            target={"class"}
+          />
+          <MenuDivider />
+          <SelectOption
+            dictionary={header.options}
+            col={header}
+            updater={header.setSubClass}
+            target={"subClass"}
+          />
+        </Menu>
+      );
     }
 
     render() {
@@ -59,6 +69,7 @@ export default observer(
         dictionary,
         dataImporterStore
       } = this.props;
+      console.log(headers);
       return (
         <div className="data-table-container">
           <div className={"data-table-header"}>
@@ -67,60 +78,72 @@ export default observer(
               {children}
             </div>
           </div>
-          <table
-            style={{ width: "100%" }}
-            className="bp3-html-table bp3-condensed bp3-html-table-striped bp3-html-table-bordered bp3-interactive bp3-small"
+          <Table
+            style={{ width: "fit-content !important" }}
+            numRows={dataImporterStore.rowsPerPage}
+            enableFocusedCell={true}
+            selectionModes={
+              "NONE" //enableColumnInteractionBar={true} //bodyContextMenuRenderer={target => this.getContextMenu()}
+            }
           >
-            <thead>
-              <tr>
-                {headers.map(col => (
-                  <th style={headerStyle} key={col.name + "Class"}>
-                    <SelectOption
-                      dictionary={dictionary}
-                      col={col}
-                      updater={col.setClass}
-                      target={"class"}
-                    />
-                  </th>
-                ))}
-              </tr>
-              <tr>
-                {headers.map(col => (
-                  <th style={headerStyle} key={col.name + "SubClass"}>
-                    <SelectOption
-                      dictionary={col.options}
-                      col={col}
-                      updater={col.setSubClass}
-                      target={"subClass"}
-                    />
-                  </th>
-                ))}
-              </tr>
-              <tr>
-                {headers.map((header, index) => (
-                  <th style={headerStyle} key={index}>
-                    {header.name}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>{this.renderRows()}</tbody>
-          </table>
-          <div className={"paging-toolbar-container"} style={{marginTop: "10px",}}>
+            {headers.map(header => (
+              <Column
+                key={header.index}
+                name={header.name}
+                cellRenderer={this.getCellRenderer(header)}
+                columnHeaderCellRenderer={(row, index) => (
+                  <ColumnHeaderCell
+                    key={index}
+                    // menuIcon={"cog"}
+                    // menuRenderer={() => this.getContextMenu(header)}
+                    isActive={true}
+                  >
+                    <div>
+                      <select
+                        style={headerStyle}
+                        onChange={e => {
+                          header.setClass(e.target.value);
+                        }}
+                      >
+                        <option hidden>{"Select option"}</option>
+                        {dictionary.map(opt => (
+                          <option value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                      <select
+                        style={headerStyle}
+                        onChange={e => header.setSubClass(e.target.value)}
+                      >
+                        <option hidden>{"Select option"}</option>
+                        {header.options.map(opt => (
+                          <option value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                      <b style={headerStyle}>{header.name}</b>
+                    </div>
+                  </ColumnHeaderCell>
+                )}
+              />
+            ))}
+          </Table>
+          <div
+            className={"paging-toolbar-container"}
+            style={{ marginTop: "10px" }}
+          >
             <Button
               minimal
               icon="refresh"
               disabled={false}
               onClick={() => {}}
             />
-            {/* <div
+            <div
               title={"Set Page Size"}
               className={classNames(Classes.SELECT, Classes.MINIMAL)}
             >
               <select
                 className="paging-page-size"
                 onChange={opt => {
-                  dataImporterStore.setRowsPerPage(opt.value);
+                  dataImporterStore.setRowsPerPage(parseInt(opt.target.value));
                 }}
                 disabled={false}
                 value={dataImporterStore.rowsPerPage}
@@ -138,7 +161,7 @@ export default observer(
                   })
                 ]}
               </select>
-            </div> */}
+            </div>
             <Button
               onClick={() => {
                 dataImporterStore.prevPage();

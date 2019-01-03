@@ -31,6 +31,21 @@
     resize-observer-polyfill "^1.5.0"
     tslib "^1.9.0"
 
+"@blueprintjs/core@^3.8.0":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.10.0.tgz#9f760168356cc96df5456ddf5b050af48dac52e9"
+  dependencies:
+    "@blueprintjs/icons" "^3.4.0"
+    "@types/dom4" "^2.0.0"
+    classnames "^2.2"
+    dom4 "^2.0.1"
+    normalize.css "^8.0.0"
+    popper.js "^1.14.1"
+    react-popper "^1.0.0"
+    react-transition-group "^2.2.1"
+    resize-observer-polyfill "^1.5.0"
+    tslib "^1.9.0"
+
 "@blueprintjs/core@^3.9.0":
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.9.0.tgz#60f10908227de8260be920a529bc67efbe9eb686"
@@ -60,12 +75,28 @@
     classnames "^2.2"
     tslib "^1.9.0"
 
+"@blueprintjs/icons@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/icons/-/icons-3.4.0.tgz#893250c32dbc09add6b988f1ed27b239d6aea6a5"
+  dependencies:
+    classnames "^2.2"
+    tslib "^1.9.0"
+
 "@blueprintjs/select@^3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/select/-/select-3.3.0.tgz#e5ff961a846a9e90ca627b58912bda5058518941"
   dependencies:
     "@blueprintjs/core" "^3.9.0"
     classnames "^2.2"
+    tslib "^1.9.0"
+
+"@blueprintjs/table@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/table/-/table-3.3.0.tgz#64db63ee9299eafa44eaa10a6f1eca814e27d8e2"
+  dependencies:
+    "@blueprintjs/core" "^3.8.0"
+    classnames "^2.2"
+    prop-types "^15.6.0"
     tslib "^1.9.0"
 
 "@emotion/babel-utils@^0.6.4":
