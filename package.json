@@ -15,7 +15,7 @@
         "classnames": "^2.2.6",
         "mobx": "4",
         "mobx-react": "^5.2.0",
-        "mobx-state-tree": "^2.0.5",
+        "mobx-state-tree": "^3.9.0",
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
         "react-select": "^2.0.0",
