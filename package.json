@@ -11,7 +11,7 @@
         "@blueprintjs/core": "3.7.0",
         "@blueprintjs/select": "^3.3.0",
         "@blueprintjs/table": "^3.3.0",
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "classnames": "^2.2.6",
         "mobx": "4",
         "mobx-react": "^5.2.0",
